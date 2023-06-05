@@ -1,0 +1,18 @@
+@startuml
+actor Admin
+participant "Admin Service" as AdminService
+database "Admin Database" as AdminDB
+
+Admin -> AdminService: Log in
+AdminService -> AdminDB: Authenticate Admin
+AdminDB --> AdminService: Return Authentication Result
+AdminService --> Admin: Log in Successful / Unsuccessful Message
+
+Admin -> AdminService: Upload Guidebook
+AdminService -> AdminDB: Store Guidebook
+AdminDB --> AdminService: Confirm Guidebook Stored
+AdminService --> Admin: Guidebook Upload Successful
+
+Admin -> AdminService: Logout
+AdminService --> Admin: Invalidate JWT token, Logout successful
+@enduml

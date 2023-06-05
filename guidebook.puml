@@ -1,0 +1,31 @@
+@startuml
+actor User
+participant "Guidebooks Service" as GuidebooksService
+database "Guidebooks Database" as GuidebooksDB
+
+User -> GuidebooksService: Log in/Register
+GuidebooksService --> User: Navigate to Guidebooks Feature
+
+User -> GuidebooksService: View Guidebooks
+GuidebooksService -> GuidebooksDB: Retrieve Guidebooks
+GuidebooksDB --> GuidebooksService: Return Guidebooks
+GuidebooksService --> User: Display Guidebooks
+
+User -> GuidebooksService: Search or Filter Guidebooks
+GuidebooksService -> GuidebooksDB: Perform Search or Filter Operation
+GuidebooksDB --> GuidebooksService: Return Search or Filter Results
+GuidebooksService --> User: Display Search or Filter Results
+
+User -> GuidebooksService: Download Guidebook
+GuidebooksService -> GuidebooksDB: Retrieve Guidebook Download Link
+GuidebooksDB --> GuidebooksService: Return Download Link
+GuidebooksService --> User: Download Guidebook
+
+User -> GuidebooksService: View Guidebook Info
+GuidebooksService -> GuidebooksDB: Retrieve Guidebook Info
+GuidebooksDB --> GuidebooksService: Return Guidebook Info
+GuidebooksService --> User: Display Guidebook Info
+
+User -> GuidebooksService: Logout
+GuidebooksService --> User: Invalidate JWT token, Logout successful
+@enduml

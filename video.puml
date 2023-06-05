@@ -1,0 +1,35 @@
+@startuml
+actor User
+actor Sheik
+participant "Video Service" as VideoService
+participant "Notification Service" as NotificationService
+database "Video Database" as VideoDB
+
+User -> VideoService: Join Sheik's Personal Meeting
+VideoService -> VideoDB: Retrieve Live Meeting Details
+VideoDB --> VideoService: Return Live Meeting Details
+VideoService --> User: Connect User to Live Meeting
+
+User -> VideoService: Send Chat Message
+VideoService --> Sheik: Display User's Chat Message
+
+User -> NotificationService: Request Notifications for Sheik's Live Sessions
+NotificationService --> User: Notifications Enabled
+
+Sheik -> VideoService: Log in
+VideoService -> VideoDB: Authenticate Sheik
+VideoDB --> VideoService: Return Authentication Result
+VideoService --> Sheik: Log in Successful / Unsuccessful Message
+
+Sheik -> VideoService: Schedule a Meeting
+VideoService -> VideoDB: Store Scheduled Meeting
+VideoDB --> VideoService: Confirm Meeting Scheduled
+VideoService --> NotificationService: Notify Users of Scheduled Meeting
+NotificationService --> VideoService: Confirm Notifications Sent
+VideoService --> Sheik: Meeting Scheduled Successfully
+
+Sheik -> VideoService: Start Meeting
+VideoService -> VideoDB: Update Meeting Status
+VideoDB --> VideoService: Confirm Meeting Status Updated
+VideoService --> Sheik: Meeting Started Successfully
+@enduml

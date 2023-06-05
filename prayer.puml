@@ -1,0 +1,24 @@
+@startuml
+actor User
+participant "Prayer Service" as PrayerService
+participant "Notification Service" as NotificationService
+
+User -> PrayerService: Log in/Register
+PrayerService --> User: Navigate to Prayer Feature
+
+User -> PrayerService: Enable Prayer Notifications
+PrayerService -> NotificationService: Schedule Prayer Notifications
+NotificationService --> PrayerService: Confirm Prayer Notifications Scheduled
+PrayerService --> User: Prayer Notifications Enabled
+
+alt Prayer Time Approaching (15 minutes before)
+    NotificationService -> User: Send Reminder Push Notification
+end
+
+alt Prayer Time Start
+    NotificationService -> User: Call to Prayer Sound Notification (1 minute)
+end
+
+User -> PrayerService: Logout
+PrayerService --> User: Invalidate JWT token, Logout successful
+@enduml

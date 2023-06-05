@@ -1,0 +1,32 @@
+@startuml
+actor User
+participant "Charity Service" as CharityService
+database "Charity Database" as CharityDB
+participant "Payment Service (Stripe/Apple Pay)" as PaymentService
+
+User -> CharityService: Log in/Register
+CharityService --> User: Navigate to Charity Feature
+
+User -> CharityService: View Donations and Zakat status
+CharityService -> CharityDB: Retrieve donation history
+CharityService -> CharityService: Calculate Zakat status
+CharityDB --> CharityService: Return donation history
+CharityService --> User: Display donation history and Zakat status
+
+User -> CharityService: Select to make a new donation
+CharityService --> User: Display donation page
+
+User -> CharityService: Enter donation details (amount, payment method)
+CharityService -> PaymentService: Process payment
+PaymentService --> CharityService: Payment success/error response
+alt Payment Success
+    CharityService -> CharityDB: Store new donation
+    CharityDB --> CharityService: Confirmation of data stored
+    CharityService --> User: Donation successful confirmation
+else Payment Error
+    CharityService --> User: Payment failed message
+end
+
+User -> CharityService: Logout
+CharityService --> User: Invalidate JWT token, Logout successful
+@enduml

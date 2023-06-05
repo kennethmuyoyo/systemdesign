@@ -1,0 +1,35 @@
+//Avatar Service: Manages the 3D model/avatar display.
+//Chat Service: Handles the retrieval and display of previous chat messages.
+//GPT Service: Uses GPT (Generative Pretrained Transformer) to process custom conversation requests and generate responses.
+
+@startuml
+actor User
+participant "Avatar Service" as AvatarService
+database "User Profile Database" as UserDB
+participant "Chat Service" as ChatService
+participant "GPT Service" as GPTService
+
+User -> AvatarService: Log in/Register
+AvatarService --> User: Navigate to Avatar Feature
+
+User -> AvatarService: View Avatar
+AvatarService --> User: Display User Avatar
+
+User -> AvatarService: View Previous Conversations
+AvatarService -> ChatService: Retrieve Chat History
+ChatService --> AvatarService: Return Chat History
+AvatarService --> User: Display Chat History
+
+User -> AvatarService: Initiate Custom Conversation
+AvatarService -> GPTService: Process Conversation Request
+GPTService --> AvatarService: Return Conversation Response
+AvatarService --> User: Display Conversation Response
+
+User -> AvatarService: View Islam Level
+AvatarService -> UserDB: Retrieve Islam Level
+UserDB --> AvatarService: Return Islam Level
+AvatarService --> User: Display Islam Level
+
+User -> AvatarService: Logout
+AvatarService --> User: Invalidate JWT token, Logout successful
+@enduml

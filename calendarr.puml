@@ -1,0 +1,31 @@
+@startuml calendarr
+actor User
+participant "Calendar Service" as CalendarService
+participant "Notification Service" as NotificationService
+database "Event Database" as EventDB
+
+User -> CalendarService: Log in/Register
+CalendarService --> User: Navigate to Calendar Feature
+
+User -> CalendarService: View Calendar
+CalendarService -> EventDB: Retrieve ceremony dates
+EventDB --> CalendarService: Return ceremony dates
+CalendarService --> User: Display Calendar with ceremony dates highlighted
+
+User -> CalendarService: Enable Notifications for ceremonies
+CalendarService -> NotificationService: Schedule ceremony notifications
+NotificationService --> CalendarService: Confirm ceremony notifications scheduled
+CalendarService --> User: Notifications for ceremonies enabled
+
+alt Ceremony Day
+    NotificationService -> User: Send Notification about today's ceremony
+end
+
+User -> CalendarService: Select a ceremony date
+CalendarService -> EventDB: Retrieve ceremony details
+EventDB --> CalendarService: Return ceremony details
+CalendarService --> User: Display ceremony details
+
+User -> CalendarService: Logout
+CalendarService --> User: Invalidate JWT token, Logout successful
+@enduml

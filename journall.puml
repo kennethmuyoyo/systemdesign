@@ -1,0 +1,43 @@
+@startuml journal
+actor User
+participant "Journal Service" as JournalService
+database "Journal Database" as JournalDB
+
+User -> JournalService: Navigate to journal feature
+User -> JournalService: View journal entries
+
+User -> JournalService: Search journal entries (by topic)
+JournalService -> JournalDB: Retrieve matching entries
+JournalDB --> JournalService: Return matching entries
+JournalService --> User: Display matching entries
+
+User -> JournalService: Select an entry to read
+JournalService --> User: Display selected entry
+
+User -> JournalService: Navigate back to list of entries
+JournalService --> User: Display list of entries
+
+User -> JournalService: Write new journal entry (topic, content)
+User -> JournalService: Add "Feeling of the Day" (emoji, word, or from a given section)
+JournalService -> JournalService: Get system date
+JournalService -> JournalDB: Store new journal entry along with "Feeling of the Day"
+JournalDB --> JournalService: Confirmation of data stored
+JournalService --> User: Journal entry and "Feeling of the Day" saved successfully
+
+User -> JournalService: Select an entry to edit
+JournalService --> User: Display selected entry in editable format
+User -> JournalService: Edit journal entry (changes in topic, content, and "Feeling of the Day")
+JournalService -> JournalDB: Update the selected journal entry
+JournalDB --> JournalService: Confirmation of data updated
+JournalService --> User: Journal entry updated successfully
+
+User -> JournalService: Select an entry to delete
+JournalService --> User: Ask for delete confirmation
+User -> JournalService: Confirm deletion
+JournalService -> JournalDB: Delete the selected journal entry
+JournalDB --> JournalService: Confirmation of data deleted
+JournalService --> User: Journal entry deleted successfully
+
+User -> JournalService: Logout
+JournalService --> User: Invalidate JWT token, Logout successful
+@enduml

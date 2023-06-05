@@ -1,0 +1,23 @@
+@startuml
+actor User
+participant "Registration Service" as RegService
+database "User Database" as UserDB
+
+User -> RegService: Enter account creation details (Google or Email/Password)
+RegService -> UserDB: Store new user data
+UserDB --> RegService: Confirmation of data stored
+RegService --> User: Account creation successful, return JWT token
+
+User -> RegService: Login (Google or Email/Password)
+RegService -> UserDB: Validate user credentials
+UserDB --> RegService: User credentials validated
+RegService --> User: Login successful, return JWT token
+
+User -> RegService: Set Muslim know-how level and AI avatar type
+RegService -> UserDB: Store user preferences
+UserDB --> RegService: Confirmation of data stored
+RegService --> User: Preferences set successfully
+
+User -> RegService: Logout
+RegService --> User: Invalidate JWT token, Logout successful
+@enduml
